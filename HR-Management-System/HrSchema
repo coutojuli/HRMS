@@ -1,0 +1,401 @@
+1.
+Employee
+	EmpID
+	FirstName
+	LastName
+	Phone
+	Email
+	Dob
+	Marital Status
+	Status
+	DeptID
+	JobID
+	Doh
+	JobTypeID
+	
+	CREATE TABLE Employee
+( 
+    employee_id NUMBER(10) CONSTRAINT pk_employee_id PRIMARY KEY,
+    first_name varchar2(50) not null,
+    last_name varchar2(50) not null,
+    email varchar2(50) not null,
+	phone number(10) not null,
+	date_of_birth date not null,
+	marital_status varchar2(50) not null,
+	status varchar2(50) not null,
+    department_id number(10) not null,
+	job_id number(10) not null,
+    date_of_hire date not null,
+	jobType_id number(10) not null,
+	CONSTRAINT fk_jobTitle FOREIGN KEY (jobType_id)
+    REFERENCES JobType(jobType_id),
+	CONSTRAINT fk_department_id FOREIGN KEY (department_id)
+    REFERENCES Department(DeptID),
+	CONSTRAINT fk_job_id FOREIGN KEY (job_id)
+    REFERENCES JobTitle(JobTitleID)
+);
+
+2. 
+City
+
+	CREATE TABLE City
+( 
+    city_id  NUMBER(10) CONSTRAINT pk_city_id PRIMARY KEY,
+	province varchar2(30) not null,
+	city varchar2(30) not null,
+);
+
+	CityID
+	Province
+	City
+
+3. 
+
+	CREATE TABLE Address
+( 
+    adress_id  NUMBER(10) CONSTRAINT pk_address_id PRIMARY KEY,
+	city_id  NUMBER(10)  not null,
+	employee_id varchar2(30) not null,
+	house_number NUMBER(10) not null,
+	postal_code varchar2(30)not null,
+	CONSTRAINT fk_employee_id FOREIGN KEY (employee_id)REFERENCES Employee(employee_id),
+	CONSTRAINT fk_city_id FOREIGN KEY (city_id)REFERENCES City(city_id),
+);
+
+Address
+	AddressID
+	CityID
+	EmpID
+	Street
+	Number
+	PostalCode
+
+4. 
+
+CREATE TABLE Department
+(
+    deparment_id NUMBER(10) PRIMARY KEY,
+    department_name varchar2(50)
+);
+
+Department
+	DeptID
+	DepatmentName
+
+5. 
+
+CREATE TABLE JobTitle
+(
+    JobTitleID NUMBER(10) PRIMARY KEY,
+    JobTitle varchar2(50)
+);
+
+JobTitle	
+	JobTitleID
+	JobTitle	
+
+6. 
+
+CREATE TABLE JobType
+(
+    jobType_id NUMBER(10) PRIMARY KEY,
+    jobType varchar2(50)
+);
+
+JobType
+	JobTypeID
+	Type
+
+7.
+
+
+
+8.
+CREATE TABLE Document
+(
+    DocID NUMBER(10) PRIMARY KEY,
+    employee_id NUMBER(10),
+	DocType varchar2(50),
+	DocNumber varchar2(50) not null,
+	ExpiryDate date,
+	CONSTRAINT fk_employee_id FOREIGN KEY (employee_id)REFERENCES Employee(employee_id)	
+);
+
+INSERT ALL 
+INTO Document VALUES (1,1,'Work Permit',204768087,'20-DEZ-2020')
+INTO Document VALUES (2,1,'Sin Number', 404564658,'20-DEZ-2020')
+INTO Document VALUES (3,2,'Work Permit',788072410,'20-OUT-2020')
+INTO Document VALUES (4,2,'Sin Number',636416993,'20-OUT-2020')
+INTO Document VALUES (5,3,'Work Permit',386833955,'20-DEZ-2020')
+INTO Document VALUES (6,3,'Sin Number',862452782,'20-DEZ-2020')
+INTO Document VALUES (7,4,'Work Permit',030792707,'20-DEZ-2022')
+INTO Document VALUES (8,4,'Sin Number',324809423,'20-DEZ-2022')
+INTO Document VALUES (9,5,'Work Permit',716657714,'13-JUL-2023')
+INTO Document VALUES (10,5,'Sin Number',793782563,'13-JUL-2023')
+SELECT * FROM dual;
+
+Document
+	DocID
+	EmpID
+	DocType
+	DocNumber
+	ExpiryDate
+	
+9.
+
+CREATE TABLE Emergency
+(
+    contact_id NUMBER(10) PRIMARY KEY,
+    employee_id NUMBER(10),
+	contact_name varchar2(50),
+	contact_phone varchar2(50),
+	CONSTRAINT fk_employee_id FOREIGN KEY (employee_id)REFERENCES Employee(employee_id),
+); 
+
+Emergency
+	ContactID
+	EmpID
+	ContactName
+	ContactPhone
+
+--------------------------------------------
+CREATE TABLE Recruitment
+(
+    recruit_id NUMBER(10) PRIMARY KEY,
+    employee_id NUMBER(10),
+	interview_date date not null,
+	first_name varchar2(50) not null,
+	last_name varchar2(50) not null,
+	phone varchar2(50) not null,
+	email varchar2(50) not null,
+	job_id NUMBER(10) not null,
+	deparment_id NUMBER(10) not null,
+	contact_phone varchar2(50) not null,
+	jobType_id NUMBER(10) not null,
+	ExpectedSalary varchar2(50) not null,
+	RecruitmentReason varchar2(100) not null,
+	JobQualification varchar2(100) not null,
+	RecruitmentStatus varchar2(50) not null,
+	AdditionalInterview varchar2(10) not null,
+	ManagerID NUMBER(10) not null,
+	Approval varchar2(10) not null,
+); 
+
+CREATE TABLE Manager
+(
+    manager_id NUMBER(10) PRIMARY KEY,
+    dept_id NUMBER(10) not null,
+	ManagerName varchar2(50) not null,
+	CONSTRAINT fk_dept_id FOREIGN KEY (dept_id)REFERENCES 
+	Department(dept_id),
+); 
+
+
+Recruitment
+	RecID
+	EmpID
+	DateOfInterview
+	FirstName
+	LastName
+	Phone
+	Email
+	JobID
+	DeptID
+	JobTypeID
+	ExpectedSalary
+	RecruitmentReason
+	JobQualification
+	RecruitmentStatus
+	AdditionalInterview
+	ManagerID
+	Approval
+	
+Managers
+	ManagerID
+	DeptID
+	ManagerName
+	
+---------------------------------------------
+Attendance
+	AttendanceID
+	EmpID
+	Date
+	TaskName
+	ClockIn
+	ClockOut
+	TotalHours
+	TaskType
+	TaskDescription
+	Status
+	ManagerID
+	
+	CREATE TABLE Attendance
+( 
+    Attendance NUMBER(10) CONSTRAINT pk_AttendanceID PRIMARY KEY,
+    employee_id NUMBER(10),
+    Date date not null,
+    TaskName varchar2(50) not null,
+	ClockIn varchar2(10) not null,
+	ClockIn varchar2(10) not null,
+	TotalHours NUMBER(2) not null,
+	TaskType TaskDescription not null,
+    TaskDescription TaskDescription not null,
+	Status varchar2(20),
+    ManagerID NUMBER(10),
+	CONSTRAINT fk_emp_atn_id FOREIGN KEY (employee_id)
+    REFERENCES varchar2(50),(employee_id)
+);
+---------------------------------------------
+
+Payroll
+	PayrollId
+	EmpId
+	GrossPay
+	Voucher
+	SpecialAl
+	TotalHours
+	FederalTax
+	ProvincialTax
+	CPPDeductions
+	EIDeductions
+
+CREATE TABLE Salary
+(
+	salary_id  NUMBER(10) CONSTRAINT pk_salary_id PRIMARY KEY,
+	employee_id NUMBER(10),
+	pay_rate NUMBER(10,2) not null,
+	grooss_pay NUMBER(10,2) not null,
+	CONSTRAINT fk_emp_salary_id FOREIGN KEY (employee_id)
+    REFERENCES Employee(employee_id)
+)
+
+CREATE TABLE Payroll
+( 
+    payroll_id NUMBER(10) CONSTRAINT pk_payroll_id PRIMARY KEY,
+    employee_id NUMBER(10),
+    voucher_allowance NUMBER(10,2) not null,
+	special_allowance NUMBER(10,2) not null,
+	federal_tax NUMBER(10,2) not null,
+	provincial_tax NUMBER(10,2) not null,
+	cpp NUMBER(10,2) not null,
+	ei NUMBER(10,2) not null,
+    payroll_total NUMBER(10,2) not null,
+	CONSTRAINT fk_emp_payroll_id FOREIGN KEY (employee_id)
+    REFERENCES Employee(employee_id)
+);
+
+INSERT ALL 
+INTO Payroll VALUES (1,'meal voucher',0.02)
+INTO Payroll VALUES (2,'special voucher',0.03)
+SELECT * FROM dual;
+
+
+CREATE TABLE FederalTax
+( 
+    federal_tax_id NUMBER(10,2) PRIMARY KEY,
+    min_gross_pay  NUMBER(10,2) not null,
+	max_gross_pay  NUMBER(10,2) not null,
+	percentage  NUMBER(10,2) not null,
+);
+
+INSERT ALL 
+INTO FederalTax VALUES (1,0,48535,0.15)
+INTO FederalTax VALUES (2,48535,97069,0.205)
+INTO FederalTax VALUES (3,97069,150473,0.26)
+INTO FederalTax VALUES (4,150473,214368,0.29)
+INTO FederalTax VALUES (5,214368,5000000,0.33)
+SELECT * FROM dual;
+
+CREATE TABLE ProvincialTax
+( 
+	provincial_tax_id NUMBER(10,2) PRIMARY KEY,
+    province_id NUMBER(10,2) not null,
+	min_gross_pay NUMBER(10,2) not null,
+	max_gross_pay NUMBER(10,2) not null,
+	percentage NUMBER(10,2) not null,
+	
+);
+ontario, alberta, bc,quebec,manitoba
+INSERT ALL 
+INTO ProvincialTax VALUES (1,4,0,40707,0.0506)
+INTO ProvincialTax VALUES (2,4,40707,81416,0.077)
+INTO ProvincialTax VALUES (3,4,81416,93476,0.105)
+INTO ProvincialTax VALUES (4,4,93476,113503,0.1229)
+INTO ProvincialTax VALUES (5,4,113503,153900,0.147)
+INTO ProvincialTax VALUES (6,4,153900,5000000,0.168)
+INTO ProvincialTax VALUES (7,2,0,131200,0.1)
+INTO ProvincialTax VALUES (8,2,131200,157464,0.12)
+INTO ProvincialTax VALUES (9,2,157464,209252,0.13)
+INTO ProvincialTax VALUES (10,2,209252,314928,0.14)
+INTO ProvincialTax VALUES (11,2,314928,5000000,0.15)
+INTO ProvincialTax VALUES (12,5,0,32670,0.108)
+INTO ProvincialTax VALUES (13,5,32670,70610,0.1275)
+INTO ProvincialTax VALUES (14,5,70610,5000000,0.174)
+INTO ProvincialTax VALUES (15,1,0,43906,0.0505)
+INTO ProvincialTax VALUES (16,1,43906,87813,0.0915)
+INTO ProvincialTax VALUES (17,1,87813,150000,0.1116)
+INTO ProvincialTax VALUES (18,1,150000,220000,0.1216)
+INTO ProvincialTax VALUES (19,1,220000,5000000,0.1316)
+INTO ProvincialTax VALUES (20,3,0,15269,0)
+INTO ProvincialTax VALUES (21,3,15269,43790,0.15)
+INTO ProvincialTax VALUES (22,3,43790,87575,0.20)
+INTO ProvincialTax VALUES (23,3,87575,106555,0.24)
+INTO ProvincialTax VALUES (24,3,106555,5000000,0.2575)
+SELECT * FROM dual;
+
+CREATE TABLE CPPDeductions
+(
+	 cpp_id NUMBER(10) PRIMARY KEY,
+	 taxable_year DATE,
+	 yearly_exemption NUMBER(10,2) not null,
+     pay_period	 NUMBER(10,2) not null,
+	 cpp_percentage NUMBER(10,2) not null,
+);
+
+INSERT ALL 
+INTO CPPDeductions VALUES (1,2019,3500,52,0.051)
+SELECT * FROM dual;
+
+
+CREATE TABLE EIDeductions
+(
+	 ei_id NUMBER(10) PRIMARY KEY,
+	 ei_province VARCHAR(50),
+	 taxable_year DATE,
+	 ei_premium_rate NUMBER(10,2) not null,
+	 ei_company_contribution_rate NUMBER(10,2) not null,
+	 max_weekly_ei NUMBER(10,2) not null,
+	 max_annual_ei NUMBER(10,2) not null,
+	 max_insurable_earning NUMBER(10,2) not null
+);
+
+INSERT ALL 
+INTO EIDeductions VALUES (1,'All provinces minus Quebec','01-JAN-2020',0.0158,0.022,573,856.36,54200)
+INTO EIDeductions VALUES (2,'Quebec','01-JAN-2020',0.0120,0.0168,573,650.40,54200)
+SELECT * FROM dual;
+
+CREATE TABLE Allowance
+(
+	 allowance_id NUMBER(10) PRIMARY KEY,
+	 allowance_type varchar2(50) not null,
+	 percentage NUMBER(10,2) not null,
+);
+
+INSERT ALL 
+INTO Allowance VALUES (1,'meal voucher',0.02)
+INTO Allowance VALUES (2,'special voucher',0.03)
+SELECT * FROM dual;
+
+
+
+
+
+
+
+	
+	
+
+
+
+	
+	
